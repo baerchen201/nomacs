@@ -1896,6 +1896,12 @@ void DkImageLoader::sort()
 
     auto cmp = DkImageContainer::compareFunc();
 
+    if (DkSettingsManager::param().global().sortMode == DkSettings::sort_exif_date)
+        for (auto img : mImages)
+            if (img->getLoadState() != DkImageContainerT::loaded)
+                img->loadImage();
+
+
     std::sort(mImages.begin(), mImages.end(), cmp);
     if (!ascending)
         std::reverse(mImages.begin(), mImages.end());

@@ -343,11 +343,6 @@ bool DkUtils::compDateModified(const QFileInfo &lhf, const QFileInfo &rhf)
 
 bool DkUtils::compExifDate(const QSharedPointer<DkImageContainer> &lhs, const QSharedPointer<DkImageContainer> &rhs)
 {
-    if (lhs->getLoadState() == DkImageContainerT::not_loaded)
-        lhs->loadImage();
-    if (rhs->getLoadState() == DkImageContainerT::not_loaded)
-        rhs->loadImage();
-
     auto leftMetaData = lhs->getMetaData();
     auto rightMetaData = rhs->getMetaData();
     if (!leftMetaData || !rightMetaData)
