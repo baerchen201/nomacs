@@ -31,6 +31,8 @@
 #include "DkSettings.h"
 #include "DkVersion.h"
 #include "DkViewPort.h"
+#include "DkImageContainer.h"
+#include "DkMetaData.h"
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_OPENBSD)
 #include <sys/sysinfo.h>
@@ -337,6 +339,54 @@ bool DkUtils::compDateModified(const QFileInfo &lhf, const QFileInfo &rhf)
         return left < right;
     else
         return compFilename(lhf, rhf);
+}
+
+bool DkUtils::compExifDate(const QSharedPointer<DkImageContainer> &lhs, const QSharedPointer<DkImageContainer> &rhs)
+{
+    if (lhs->getLoadState() == DkImageContainerT::not_loaded)
+        lhs->loadImage();
+    if (rhs->getLoadState() == DkImageContainerT::not_loaded)
+        rhs->loadImage();
+
+    auto leftMetaData = lhs->getMetaData();
+    auto rightMetaData = rhs->getMetaData();
+    if (!leftMetaData || !rightMetaData)
+        return compFilename(lhs->fileInfo(), rhs->fileInfo());
+
+    QDateTime left, right;
+    QStringList leftExifKeys = leftMetaData->getExifKeys();
+    QStringList rightExifKeys = rightMetaData->getExifKeys();
+
+    for (int idx = 0; idx < leftExifKeys.size(); idx++) {
+        if (leftExifKeys.at(idx) != "Exif.Image.DateTime")
+            continue;
+        QString exifValue = leftMetaData->getNativeExifValue(leftExifKeys.at(idx), true);
+        QString cleanValue = resolveFraction(exifValue);
+
+        left = getConvertableDate(cleanValue);
+
+        if (!left.isNull())
+            break;
+    }
+
+    if (!left.isNull())
+        for (int idx = 0; idx < rightExifKeys.size(); idx++) {
+            if (rightExifKeys.at(idx) != "Exif.Image.DateTime")
+                continue;
+            QString exifValue = rightMetaData->getNativeExifValue(rightExifKeys.at(idx), true);
+            QString cleanValue = resolveFraction(exifValue);
+
+            right = getConvertableDate(cleanValue);
+
+            if (!right.isNull())
+                break;
+        }
+        
+    if (!left.isNull() && !right.isNull())
+        if (left != right)
+            return left < right;
+        
+    return compFilename(lhs->fileInfo(), rhs->fileInfo());
 }
 
 bool DkUtils::compFilename(const QFileInfo &lhf, const QFileInfo &rhf)

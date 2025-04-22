@@ -25,6 +25,9 @@
 
  *******************************************************************************************************/
 
+#include "DkImageContainer.h"
+#include "DkMetaData.h"
+
 #pragma once
 
 #include <functional>
@@ -137,8 +140,10 @@ public:
     static bool compDateCreated(const QFileInfo &lhf, const QFileInfo &rhf);
 
     static bool compDateModified(const QFileInfo &lhf, const QFileInfo &rhf);
-
+    
     static bool compRandom(const QFileInfo &lhf, const QFileInfo &rhf);
+
+    static bool compExifDate(const QSharedPointer<DkImageContainer> &lhs, const QSharedPointer<DkImageContainer> &rhs);
 
     static bool naturalCompare(const QString &s1, const QString &s2, Qt::CaseSensitivity cs = Qt::CaseSensitive);
 

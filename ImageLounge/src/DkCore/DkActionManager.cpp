@@ -432,6 +432,7 @@ QMenu *DkActionManager::createSortMenu(QWidget *parent)
     mSortMenu->addAction(mSortActions[menu_sort_file_size]);
     mSortMenu->addAction(mSortActions[menu_sort_date_created]);
     mSortMenu->addAction(mSortActions[menu_sort_date_modified]);
+    mSortMenu->addAction(mSortActions[menu_sort_exif_date]);
     mSortMenu->addAction(mSortActions[menu_sort_random]);
     mSortMenu->addSeparator();
     mSortMenu->addAction(mSortActions[menu_sort_ascending]);
@@ -1118,6 +1119,12 @@ void DkActionManager::createActions(QWidget *parent)
     mSortActions[menu_sort_date_modified]->setStatusTip(QObject::tr("Sort by Date Last Modified"));
     mSortActions[menu_sort_date_modified]->setCheckable(true);
     mSortActions[menu_sort_date_modified]->setChecked(DkSettingsManager::param().global().sortMode == DkSettings::sort_date_modified);
+    
+    mSortActions[menu_sort_exif_date] = new QAction(QObject::tr("by Embedded Date"), parent);
+    mSortActions[menu_sort_exif_date]->setObjectName("menu_sort_exif_date");
+    mSortActions[menu_sort_exif_date]->setStatusTip(QObject::tr("Sort by Date in EXIF data"));
+    mSortActions[menu_sort_exif_date]->setCheckable(true);
+    mSortActions[menu_sort_exif_date]->setChecked(DkSettingsManager::param().global().sortMode == DkSettings::sort_exif_date);
 
     mSortActions[menu_sort_random] = new QAction(QObject::tr("Random"), parent);
     mSortActions[menu_sort_random]->setObjectName("menu_sort_random");

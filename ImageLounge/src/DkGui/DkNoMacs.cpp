@@ -291,6 +291,7 @@ void DkNoMacs::createActions()
     connect(am.action(DkActionManager::menu_sort_file_size), &QAction::triggered, this, &DkNoMacs::changeSorting);
     connect(am.action(DkActionManager::menu_sort_date_created), &QAction::triggered, this, &DkNoMacs::changeSorting);
     connect(am.action(DkActionManager::menu_sort_date_modified), &QAction::triggered, this, &DkNoMacs::changeSorting);
+    connect(am.action(DkActionManager::menu_sort_exif_date), &QAction::triggered, this, &DkNoMacs::changeSorting);
     connect(am.action(DkActionManager::menu_sort_random), &QAction::triggered, this, &DkNoMacs::changeSorting);
     connect(am.action(DkActionManager::menu_sort_ascending), &QAction::triggered, this, &DkNoMacs::changeSorting);
     connect(am.action(DkActionManager::menu_sort_descending), &QAction::triggered, this, &DkNoMacs::changeSorting);
@@ -1372,6 +1373,8 @@ void DkNoMacs::changeSorting(bool change)
             DkSettingsManager::param().global().sortMode = DkSettings::sort_date_created;
         else if (senderName == "menu_sort_date_modified")
             DkSettingsManager::param().global().sortMode = DkSettings::sort_date_modified;
+        else if (senderName == "menu_sort_exif_date")
+            DkSettingsManager::param().global().sortMode = DkSettings::sort_exif_date;
         else if (senderName == "menu_sort_random")
             DkSettingsManager::param().global().sortMode = DkSettings::sort_random;
         else if (senderName == "menu_sort_ascending")

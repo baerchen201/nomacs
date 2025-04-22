@@ -123,6 +123,7 @@ public:
         sort_date_created,
         sort_date_modified,
         sort_random,
+        sort_exif_date,
         sort_end,
     };
 

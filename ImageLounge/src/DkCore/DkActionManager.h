@@ -147,6 +147,7 @@ public:
         menu_sort_file_size,
         menu_sort_date_created,
         menu_sort_date_modified,
+        menu_sort_exif_date,
         menu_sort_random,
         menu_sort_ascending,
         menu_sort_descending,

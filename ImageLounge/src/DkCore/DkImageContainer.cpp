@@ -295,6 +295,8 @@ std::function<bool(const QSharedPointer<DkImageContainer> &, const QSharedPointe
     case DkSettings::sort_random:
         cmp = &DkUtils::compRandom;
         break;
+    case DkSettings::sort_exif_date:
+        return &DkUtils::compExifDate;
     default:
         qWarning() << "[compareFunc] bogus sort mode ignored" << mode;
         cmp = &DkUtils::compFilename;
